@@ -119,12 +119,15 @@ http://127.0.0.1:8000/products/                                          view al
 
 
 
-views.py       for handling product operations handle HTTP requests
-forms.py      for managing products in HTML pages
-urls.py 	for URL routes
-schema.py for graphql Queries & Mutations
-settings.py for INSTALLED_APPS and configures graphql in Django.
+`views.py `     for handling product operations handle HTTP requests
 
+`forms.py`      for managing products in HTML pages
+
+`urls.py` 	for URL routes
+
+`schema.py` for graphql Queries & Mutations
+
+`settings.py` for INSTALLED_APPS and configures graphql in Django.
 
 
 ## Screenshots
