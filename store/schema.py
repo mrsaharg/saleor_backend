@@ -1,6 +1,7 @@
 import graphene
 from graphene_django.types import DjangoObjectType
 from .models import Product
+from .tasks import add_product_task  
 
 # product type
 class ProductType(DjangoObjectType):
@@ -19,8 +20,9 @@ class CreateProduct(graphene.Mutation):
     product = graphene.Field(ProductType)
 
     def mutate(self, info, name, type, sku, quantity):
-        if Product.objects.filter(sku=sku).exists():
-            raise Exception(f"Product with SKU '{sku}' already exists.")
+        add_product_task.delay(name, type, sku, quantity)  # ✅ Send to Celery
+        return CreateProduct(success=True)
+        
 
         product = Product(name=name, type=type, sku=sku, quantity=quantity)
         product.save()
@@ -87,6 +89,22 @@ class Query(graphene.ObjectType):
             products = products.filter(name__icontains=search) | products.filter(sku__icontains=search)
 
         return products
+    
+ 
+
+class CreateProduct(graphene.Mutation):
+    success = graphene.Boolean()
+
+    class Arguments:
+        name = graphene.String(required=True)
+        type = graphene.String(required=True)
+        sku = graphene.String(required=True)
+        quantity = graphene.Int(required=True)
+
+    def mutate(self, info, name, type, sku, quantity):
+        # ✅ Pass the product creation to Celery (async)
+        add_product_task.delay(name, type, sku, quantity)
+        return CreateProduct(success=True)
 
 class Mutation(graphene.ObjectType):
     create_product = CreateProduct.Field()
