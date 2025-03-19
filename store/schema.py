@@ -8,7 +8,7 @@ class ProductType(DjangoObjectType):
         model = Product
         fields = ("name", "type", "sku", "quantity")  # Ensure all fields are included
 
-# mutation: Add
+# mutation: add
 class CreateProduct(graphene.Mutation):
     class Arguments:
         name = graphene.String(required=True)
@@ -50,7 +50,7 @@ class UpdateProduct(graphene.Mutation):
         product.save()
         return UpdateProduct(product=product)
 
-# mutation: delete a Product
+# mutation: delete
 class DeleteProduct(graphene.Mutation):
     class Arguments:
         sku = graphene.String(required=True)
