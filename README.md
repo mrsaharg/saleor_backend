@@ -102,9 +102,13 @@ query {
     * Updating an existing product
 
 http://127.0.0.1:8000/graphql
-http://127.0.0.1:8000/products/                                          view all products.
+
+http://127.0.0.1:8000/products/  view all products.
+
 http://127.0.0.1:8000/products/create/                           add a new product.
+
 http://127.0.0.1:8000/products/update/sku_value/   edit a product.
+
 http://127.0.0.1:8000/products/delete/sku_value/    popup and delete automatically
 
 
