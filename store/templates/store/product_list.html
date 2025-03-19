@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}   
+<h1>Product List</h1>
+<table class="product-table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>SKU</th>
+            <th class="center">Quantity</th>
+            <th class="center">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in products %}
+        <tr>
+            <td>{{ product.name }}</td>
+            <td>{{ product.type }}</td>
+            <td>{{ product.sku }}</td>
+            <td class="center">{{ product.quantity }}</td>
+            <td class="center">
+                <a href="{% url 'update_product' product.sku %}" class="action-link">Edit</a>
+                |
+                <a href="#" class="action-link delete-link" onclick="confirmDelete('{{ product.sku }}')">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table> 
+<br/>
+<a href="{% url 'create_product' %}" class="btn-add">Add New Product</a>
+
+<script>
+    function confirmDelete(sku) {
+        Swal.fire({
+            title: "Confirmation Popup",
+            text: "Are you sure?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "/products/delete/" + sku + "/";
+            }
+        });
+    }
+</script>
+
+{% endblock %}

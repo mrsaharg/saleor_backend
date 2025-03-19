@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 class="form-heading">{% if product %}Edit Product{% else %}Add Product{% endif %}</h2>
+<form method="post" class="styled-form">
+    {% csrf_token %}
+
+    <div class="form-group">
+        <label for="id_name">Name:</label>
+        <input type="text" id="id_name" name="name" value="{{ form.name.value|default:'' }}">
+        <span class="error-message">{{ form.name.errors.0 }}</span>
+    </div>
+
+    <div class="form-group">
+        <label for="id_type">Type:</label>
+        <input type="text" id="id_type" name="type" value="{{ form.type.value|default:'' }}">
+        <span class="error-message">{{ form.type.errors.0 }}</span>
+    </div>
+
+    <div class="form-group">
+        <label for="id_sku">SKU:</label>
+        <input type="text" id="id_sku" name="sku" value="{{ form.sku.value|default:'' }}"> 
+        {% if form.sku.errors %}
+        <br/>
+            <span class="error-message">{{ form.sku.errors.0 }}</span>
+        {% endif %}
+    </div>
+
+    <div class="form-group">
+        <label for="id_quantity">Quantity:</label>
+        <input type="number" id="id_quantity" name="quantity" value="{{ form.quantity.value|default:'' }}">
+        <span class="error-message">{{ form.quantity.errors.0 }}</span>
+    </div>
+
+    <div class="form-actions">
+        <button type="submit" class="btn-save">Save</button>
+        <a href="{% url 'product_list' %}" class="btn-back">Back to Product List</a>
+    </div>
+</form>
+{% endblock %}
